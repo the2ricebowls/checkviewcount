@@ -1,0 +1,1404 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "proxy_api_key",
+              "value": "dEysx3nTB5LYuOXcOXyW",
+              "type": "string"
+            },
+            {
+              "id": "2",
+              "name": "proxy_api_url",
+              "value": "https://api.proxyxoay.org/api/key_xoay.php",
+              "type": "string"
+            },
+            {
+              "id": "3",
+              "name": "proxy_live",
+              "value": "5",
+              "type": "string"
+            },
+            {
+              "id": "4",
+              "name": "current_proxy",
+              "value": "116.103.68.151:47067:tmproxyLQpQL:MWfjNiyqY5",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2e65df34-39f0-4872-8c52-bd2ec7515325",
+      "name": "⚙️ Proxy Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -512,
+        -560
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ZZwwdP9kn96YtFyR_k2S8eGM5ZIy-gJgrxJqTQGRB5U",
+          "mode": "list",
+          "cachedResultName": "Tiktok video detail222",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZZwwdP9kn96YtFyR_k2S8eGM5ZIy-gJgrxJqTQGRB5U/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZZwwdP9kn96YtFyR_k2S8eGM5ZIy-gJgrxJqTQGRB5U/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "46e934fb-ced1-4734-940e-ff7858cf20b8",
+      "name": "Read URL List",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -512,
+        -384
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "jLdFgUdBVymUFlNx",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "status",
+              "value": "All done",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e388c6d7-f934-406b-b5e8-d995c1e62332",
+      "name": "Done",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -48,
+        -352
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            {
+              "id": "a1",
+              "leftValue": "={{ $json.URL }}",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              },
+              "rightValue": ""
+            },
+            {
+              "id": "a2",
+              "leftValue": "={{ $json.Subtitle }}",
+              "operator": {
+                "type": "string",
+                "operation": "empty"
+              },
+              "rightValue": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d99d499a-1f86-4c7d-943d-543d30c9ec87",
+      "name": "Skip if already done",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -48,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "w1",
+              "leftValue": "={{ $json.data.includes(\"__UNIVERSAL_DATA_FOR_REHYDRATION__\") }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              },
+              "rightValue": false
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": "={{ false }}",
+        "options": {}
+      },
+      "id": "0fe3c73c-11e4-4276-a81f-a4489d2fba05",
+      "name": "WAF? (lần 1)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        624,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Set TikTok URL1').first().json.tiktok_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            },
+            {
+              "name": "Accept-Language",
+              "value": "en-US,en;q=0.9"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "proxy": "={{ $('Set TikTok URL1').first().json.current_proxy }}"
+        }
+      },
+      "id": "4e113ec8-ebab-4cd4-9380-09046230a803",
+      "name": "Retry lần 1 (proxy cũ)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        848,
+        -240
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "w2",
+              "leftValue": "={{ $json.data.includes(\"__UNIVERSAL_DATA_FOR_REHYDRATION__\") }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              },
+              "rightValue": false
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "dd746b7a-5958-4fe6-b533-9a89264400b6",
+      "name": "Vẫn WAF? → Xoay proxy",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1072,
+        -240
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $('⚙️ Proxy Config').first().json.proxy_api_url }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "={{ $('⚙️ Proxy Config').first().json.proxy_api_key }}"
+            },
+            {
+              "name": "live",
+              "value": "={{ $('⚙️ Proxy Config').first().json.proxy_live }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "c0a032b9-f2d6-47a7-b81f-fa6835517a81",
+      "name": "Xoay Proxy",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1296,
+        -400
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "nw1",
+              "leftValue": "={{ $json.next_allowed_in_seconds }}",
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              },
+              "rightValue": 60
+            },
+            {
+              "id": "nw2",
+              "leftValue": "={{ $json.next_allowed_in_seconds }}",
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              },
+              "rightValue": 0
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "64095ade-cbb8-4b29-9504-8628128bf309",
+      "name": "Cần chờ? (< 60s)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1520,
+        -400
+      ]
+    },
+    {
+      "parameters": {
+        "amount": "={{ $('Xoay Proxy').first().json.next_allowed_in_seconds }}"
+      },
+      "id": "fcdc53bb-a9ae-41f9-8b8a-6ad2b2dd5412",
+      "name": "Chờ proxy sẵn sàng",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1744,
+        -624
+      ],
+      "webhookId": "a27206ae-e9f4-424a-b8e7-c64dbd66dde5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "tiktok_url",
+              "value": "={{ $('Set TikTok URL1').first().json.tiktok_url }}",
+              "type": "string"
+            },
+            {
+              "id": "2",
+              "name": "current_proxy",
+              "value": "={{ $('Xoay Proxy').first().json.proxyhttp }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "97256a33-ca21-4dbc-974f-2d7a07881be4",
+      "name": "Set Proxy Mới",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1968,
+        -528
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.tiktok_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            },
+            {
+              "name": "Accept-Language",
+              "value": "en-US,en;q=0.9"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "proxy": "={{ $json.current_proxy }}"
+        }
+      },
+      "id": "443e3d41-3492-4053-bba4-34a854dab29c",
+      "name": "Retry lần 2 (proxy mới)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2240,
+        -608
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "hs1",
+              "leftValue": "={{ $json.has_subtitle }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              },
+              "rightValue": true
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "36ad3151-7cf3-4261-ad9e-9b73fbc70c9c",
+      "name": "Has Subtitle?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2192,
+        -160
+      ],
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "subtitle",
+              "value": "Không có Subtitle",
+              "type": "string"
+            },
+            {
+              "id": "2",
+              "name": "transcript",
+              "value": "={{ $json.transcript || $json.error || '' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "38c509d2-5f35-43bf-a41b-89737f20e651",
+      "name": "Set Transcript Result",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2720,
+        -96
+      ],
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "id": "60d1ec16-c3f0-4c8b-a3ca-229bc52318d3",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -272,
+        -256
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "94ae0819-e9a1-4b38-b230-b7dacf595078",
+      "name": "Wait 5s",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3760,
+        48
+      ],
+      "webhookId": "286c63e5-b764-48fb-aac9-6c4d7dfa70e0"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "subtitle",
+              "value": "={{ $json.subtitle }}",
+              "type": "string"
+            },
+            {
+              "id": "2",
+              "name": "transcript",
+              "value": "=",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "03832a34-f718-4561-a30c-84d61c51f96a",
+      "name": "Set Transcript Result1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2864,
+        -288
+      ],
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {},
+      "id": "8d401b95-7b6e-4fe7-b43c-5e1e29f3be47",
+      "name": "Merge Results",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3088,
+        -144
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "w3",
+              "leftValue": "={{ $json.data.includes(\"__UNIVERSAL_DATA_FOR_REHYDRATION__\") }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              },
+              "rightValue": false
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "ea9d29e0-461d-4ae2-ae41-7421cf6da48f",
+      "name": "WAF? (lần 3 - skip)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2192,
+        -304
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "subtitle",
+              "value": "WAF block - skipped",
+              "type": "string"
+            },
+            {
+              "id": "2",
+              "name": "transcript",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "35374980-5663-4813-b213-13e8c0b92f9a",
+      "name": "Bỏ qua (WAF fail)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2528,
+        -496
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "tiktok_url",
+              "value": "={{ $json.URL }}",
+              "type": "string"
+            },
+            {
+              "id": "2",
+              "name": "current_proxy",
+              "value": "={{ $('⚙️ Proxy Config').first().json.current_proxy }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "645ec61e-5da3-4beb-861e-f33d5f2bb0f5",
+      "name": "Set TikTok URL1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        176,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.tiktok_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            },
+            {
+              "name": "Accept-Language",
+              "value": "en-US,en;q=0.9"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "proxy": "={{ $json.current_proxy }}"
+        }
+      },
+      "id": "3a475b5e-f129-43cb-bbfc-8563e6a5cdad",
+      "name": "Fetch TikTok HTML1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        400,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst results = [];\n\nfunction findSubtitleSmart(subtitleInfos, preferredLang = 'vie-VN') {\n  if (!subtitleInfos || !Array.isArray(subtitleInfos) || subtitleInfos.length === 0) return null;\n  const version1Sub = subtitleInfos.find(s => { const ver = String(s.Version || ''); return ver === '1' || ver.startsWith('1:'); });\n  if (version1Sub) return version1Sub;\n  const preferredSub = subtitleInfos.find(s => s.LanguageCodeName === preferredLang);\n  if (preferredSub) return preferredSub;\n  return subtitleInfos[0] || null;\n}\n\nfunction findSubtitleFromClaInfo(claInfo, preferredLang = 'vie-VN') {\n  if (!claInfo?.captionInfos?.length) return null;\n  const captions = claInfo.captionInfos;\n  const version1Cap = captions.find(c => { const variant = String(c.variant || ''); return variant === '1' || variant.startsWith('1:'); });\n  if (version1Cap) return version1Cap;\n  const preferredCap = captions.find(c => c.language === preferredLang);\n  if (preferredCap) return preferredCap;\n  return captions[0] || null;\n}\n\nfor (const item of items) {\n  const html = item.json.data;\n  const tiktokUrl = $('Set TikTok URL1').first().json.tiktok_url;\n  const videoIdMatch = tiktokUrl.match(/\\/video\\/(\\d+)/);\n  const videoId = videoIdMatch ? videoIdMatch[1] : null;\n  if (!videoId) { results.push({ json: { error: 'Cannot extract video ID', url: tiktokUrl } }); continue; }\n\n  const marker = '<script id=\"__UNIVERSAL_DATA_FOR_REHYDRATION__\" type=\"application/json\">';\n  const startIdx = html.indexOf(marker);\n  if (startIdx === -1) { results.push({ json: { error: 'Cannot find JSON data in HTML', videoId } }); continue; }\n\n  const jsonStart = startIdx + marker.length;\n  const jsonEnd = html.indexOf('</script>', jsonStart);\n  let itemStruct;\n  try {\n    const data = JSON.parse(html.substring(jsonStart, jsonEnd));\n    itemStruct = data?.['__DEFAULT_SCOPE__']?.['webapp.video-detail']?.['itemInfo']?.['itemStruct'];\n  } catch (e) { results.push({ json: { error: 'JSON parse failed: ' + e.message, videoId } }); continue; }\n  if (!itemStruct) { results.push({ json: { error: 'itemStruct not found', videoId } }); continue; }\n\n  const stats = itemStruct.statsV2 || itemStruct.stats || {};\n  const video = itemStruct.video || {};\n  const author = itemStruct.author || {};\n  const subtitleInfos = video.subtitleInfos || [];\n  const claInfo = video.claInfo || null;\n  const hasOriginalAudio = claInfo?.hasOriginalAudio || false;\n\n  let finalSubtitle = findSubtitleSmart(subtitleInfos, 'vie-VN');\n  if (!finalSubtitle && claInfo?.captionInfos?.length) {\n    const claFallback = findSubtitleFromClaInfo(claInfo, 'vie-VN');\n    if (claFallback) {\n      finalSubtitle = { Url: claFallback.url, Version: claFallback.variant, LanguageCodeName: claFallback.language };\n    }\n  }\n\n  results.push({ json: {\n    id: itemStruct.id, desc: itemStruct.desc,\n    create_time: itemStruct.createTime ? new Date(itemStruct.createTime * 1000).toISOString() : null,\n    author: author.uniqueId, author_nickname: author.nickname,\n    play_count: stats.playCount, like_count: stats.diggCount,\n    comment_count: stats.commentCount, share_count: stats.shareCount, collect_count: stats.collectCount,\n    duration: video.duration,\n    hashtags: (itemStruct.challenges || []).map(c => c.title).join(', '),\n    subtitle_url: finalSubtitle?.Url || null,\n    has_subtitle: (subtitleInfos.length > 0) || (claInfo?.captionInfos?.length > 0),\n    has_original_audio: hasOriginalAudio,\n    tiktok_url: tiktokUrl\n  }});\n}\nreturn results;"
+      },
+      "id": "aec3983b-ae3b-418a-b8d1-e72bf5766ee0",
+      "name": "Parse TikTok Metadata1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1968,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.subtitle_url }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "proxy": "={{ $('Set TikTok URL1').first().json.current_proxy }}"
+        }
+      },
+      "id": "39a55098-f078-4241-b807-eefb8606b6c7",
+      "name": "Fetch Subtitle1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2448,
+        -288
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst results = [];\nfor (const item of items) {\n  const vttContent = item.json.data || '';\n  const seen = new Set();\n  const textLines = vttContent.split('\\n').filter(line => {\n    const t = line.trim();\n    return t && t !== 'WEBVTT' && !t.includes('-->') && !/^\\d+$/.test(t);\n  }).filter(line => {\n    const trimmed = line.trim();\n    if (seen.has(trimmed)) return false;\n    seen.add(trimmed);\n    return true;\n  });\n  results.push({ json: { subtitle: textLines.join(' ').trim(), transcript: '' } });\n}\nreturn results;"
+      },
+      "id": "f5a6b7b8-de02-400f-b5ae-bcaec5f890ca",
+      "name": "Parse Subtitle1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2640,
+        -288
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://ttta.onrender.com/transcribe",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { \"url\": $(\"Set TikTok URL1\").first().json.tiktok_url, \"language\": \"vi\" } }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          },
+          "timeout": 180000
+        }
+      },
+      "id": "a53d0564-b89a-49ae-b44a-35f4c1797514",
+      "name": "Call Transcribe API1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        2448,
+        -96
+      ],
+      "alwaysOutputData": true,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "URL",
+              "value": "={{ $('Set TikTok URL1').first().json.tiktok_url }}",
+              "type": "string"
+            },
+            {
+              "id": "2",
+              "name": "Like",
+              "value": "={{ $('Parse TikTok Metadata1').first().json.like_count }}",
+              "type": "string"
+            },
+            {
+              "id": "3",
+              "name": "View",
+              "value": "={{ $('Parse TikTok Metadata1').first().json.play_count }}",
+              "type": "string"
+            },
+            {
+              "id": "4",
+              "name": "Comment",
+              "value": "={{ $('Parse TikTok Metadata1').first().json.comment_count }}",
+              "type": "string"
+            },
+            {
+              "id": "5",
+              "name": "Share",
+              "value": "={{ $('Parse TikTok Metadata1').first().json.share_count }}",
+              "type": "string"
+            },
+            {
+              "id": "6",
+              "name": "Subtitle",
+              "value": "={{ $json.subtitle }}",
+              "type": "string"
+            },
+            {
+              "id": "7",
+              "name": "Transcript",
+              "value": "={{ $json.transcript }}",
+              "type": "string"
+            },
+            {
+              "id": "8",
+              "name": "Generated Date",
+              "value": "={{ new Date().toISOString().slice(0, 10) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5184ec27-6853-40e9-b4f9-4322bb3b3a22",
+      "name": "Combine Final Output1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3312,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1ZZwwdP9kn96YtFyR_k2S8eGM5ZIy-gJgrxJqTQGRB5U",
+          "mode": "list",
+          "cachedResultName": "Tiktok video detail222",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ZZwwdP9kn96YtFyR_k2S8eGM5ZIy-gJgrxJqTQGRB5U/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gid=0",
+          "cachedResultName": "Data"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "URL": "={{ $json.URL }}",
+            "Like": "={{ $json.Like }}",
+            "View": "={{ $json.View }}",
+            "Comment": "={{ $json.Comment }}",
+            "Share": "={{ $json.Share }}",
+            "Subtitle": "={{ $json.Subtitle }}",
+            "Transcript": "={{ $json.Transcript }}"
+          },
+          "matchingColumns": [
+            "URL"
+          ],
+          "schema": [
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Like",
+              "displayName": "Like",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "View",
+              "displayName": "View",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "Comment",
+              "displayName": "Comment",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "Share",
+              "displayName": "Share",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "Subtitle",
+              "displayName": "Subtitle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "Transcript",
+              "displayName": "Transcript",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "198bde26-84e3-4aba-b628-444fe28351ba",
+      "name": "Update Sheet1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        3536,
+        -160
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "jLdFgUdBVymUFlNx",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "13c01185-431a-462c-b17d-a8e6cba8d5c9",
+      "name": "When clicking 'Execute workflow'",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -736,
+        -384
+      ]
+    },
+    {
+      "parameters": {
+        "content": "Em chọn cách trích xuất html, không gọi api vì sẽ bị giới hạn thời gian. vì vậy nên có proxy xoay để có thể chạy liên tục ạ"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        -688
+      ],
+      "id": "0679045a-64da-4173-86fa-9c1934a32a1c",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "Lấy danh sách URLs từ sheet"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -592,
+        -192
+      ],
+      "id": "de95c07f-205d-4056-bc10-28ddd5bae4e9",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "Get html của video tiktok",
+        "height": 208,
+        "width": 224
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        320,
+        -304
+      ],
+      "id": "1ee73335-b3ff-481c-934a-65a398b3416b",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "Gọi nhiều có thể bị chặn vài giây, kiểm tra xem nếu bị chặn thì đổi proxy",
+        "height": 208,
+        "width": 224
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        624,
+        0
+      ],
+      "id": "4aa008a3-5460-41d5-81ec-66c333310c30",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "Nếu proxy vẫn bị chặn thì xoay",
+        "height": 208,
+        "width": 176
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        -496
+      ],
+      "id": "96fb5121-843d-4ab4-8686-8558ea548f4f",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "Lấy thông tin json trong HTML ở phần __UNIVERSAL_DATA_FOR_REHYDRATION__",
+        "height": 208,
+        "width": 224
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1872,
+        -272
+      ],
+      "id": "dbb91288-bcb0-4d30-9379-b0a3e4b52325",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "Nếu có Subtitle tự động tạo của tiktok thì lấy",
+        "height": 208,
+        "width": 224
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2400,
+        -352
+      ],
+      "id": "2e991ef7-ff67-46c4-9f42-ae37accc187e",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "Không có subtitle thì tải video, lấy âm thanh, dùng groq api để lấy văn bản từ file âm thanh, em deploy lên render xử lý.",
+        "height": 208,
+        "width": 224
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2400,
+        64
+      ],
+      "id": "317d9a7c-be80-422a-945d-f28595559f93",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "Cập nhật lên sheet và chờ tránh bị chặn nhiều, phải chờ proxy.",
+        "height": 208,
+        "width": 224
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3744,
+        -32
+      ],
+      "id": "90f76197-b024-4c48-b87c-7c318ff939f9",
+      "name": "Sticky Note8"
+    }
+  ],
+  "connections": {
+    "Read URL List": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Skip if already done": {
+      "main": [
+        [
+          {
+            "node": "Set TikTok URL1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WAF? (lần 1)": {
+      "main": [
+        [
+          {
+            "node": "Retry lần 1 (proxy cũ)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Parse TikTok Metadata1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retry lần 1 (proxy cũ)": {
+      "main": [
+        [
+          {
+            "node": "Vẫn WAF? → Xoay proxy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vẫn WAF? → Xoay proxy": {
+      "main": [
+        [
+          {
+            "node": "Xoay Proxy",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Parse TikTok Metadata1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Xoay Proxy": {
+      "main": [
+        [
+          {
+            "node": "Cần chờ? (< 60s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cần chờ? (< 60s)": {
+      "main": [
+        [
+          {
+            "node": "Chờ proxy sẵn sàng",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Proxy Mới",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chờ proxy sẵn sàng": {
+      "main": [
+        [
+          {
+            "node": "Set Proxy Mới",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Proxy Mới": {
+      "main": [
+        [
+          {
+            "node": "Retry lần 2 (proxy mới)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retry lần 2 (proxy mới)": {
+      "main": [
+        [
+          {
+            "node": "WAF? (lần 3 - skip)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Subtitle?": {
+      "main": [
+        [
+          {
+            "node": "Fetch Subtitle1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Call Transcribe API1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Transcript Result": {
+      "main": [
+        [
+          {
+            "node": "Merge Results",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Done",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Skip if already done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 5s": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Transcript Result1": {
+      "main": [
+        [
+          {
+            "node": "Merge Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Results": {
+      "main": [
+        [
+          {
+            "node": "Combine Final Output1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WAF? (lần 3 - skip)": {
+      "main": [
+        [
+          {
+            "node": "Bỏ qua (WAF fail)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Parse TikTok Metadata1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bỏ qua (WAF fail)": {
+      "main": [
+        [
+          {
+            "node": "Merge Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set TikTok URL1": {
+      "main": [
+        [
+          {
+            "node": "Fetch TikTok HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch TikTok HTML1": {
+      "main": [
+        [
+          {
+            "node": "WAF? (lần 1)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse TikTok Metadata1": {
+      "main": [
+        [
+          {
+            "node": "Has Subtitle?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Subtitle1": {
+      "main": [
+        [
+          {
+            "node": "Parse Subtitle1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Subtitle1": {
+      "main": [
+        [
+          {
+            "node": "Set Transcript Result1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call Transcribe API1": {
+      "main": [
+        [
+          {
+            "node": "Set Transcript Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Final Output1": {
+      "main": [
+        [
+          {
+            "node": "Update Sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Sheet1": {
+      "main": [
+        [
+          {
+            "node": "Wait 5s",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking 'Execute workflow'": {
+      "main": [
+        [
+          {
+            "node": "Read URL List",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "⚙️ Proxy Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "aiBuilderAssisted": true,
+    "templateCredsSetupCompleted": true,
+    "instanceId": "49bf9e388b41024d7a0eba931695e351fd097e409e52e873e03010a310651d97"
+  }
+}
