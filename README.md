@@ -7,7 +7,7 @@
     *   Sử dụng **Scraper API** (Proxy) + **Sticky Session** gọi TikWM API để lấy dữ liệu chuẩn xác.
     *   Cơ chế **Pool Key tự động**: Tự động xoay vòng key khi hết credit.
 *   **Hiệu suất cao:** Xử lý theo **Hàng chờ (Queue)** có cơ chế **Retry**, đáp ứng nhu cầu quét dữ liệu liên tục và quy mô lớn.
-*   **Mở rộng:** Tham khảo thêm workflow n8n [Xem hướng dẫn n8n Workflow tại đây](./TikTok%20Video%20Stats%20Workflow.md)
+*   **Mở rộng:** Dự án này có thể [tham khảo thêm workflow n8n](./TikTok%20Video%20Stats%20Workflow.md), workflow này dùng cách khác để lấy ra thông số video và TTS để lấy nội dung video. => ý tưởng: TTS lấy nội dung, phân tích kịch bản video theo các tiêu chí mẫu,... 
 ---
 
 
