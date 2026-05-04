@@ -30,3 +30,8 @@ sheet Data dòng 1 header có dạng:
 4. Tạo sheet View để xem, khóa lại. dán vào A1 công thức `=FILTER({Data!B:E, Data!K:ZY}, Data!B:B <> "")`
 5. Lấy Scraper API KEY dán vào sheet ScraperAPI_Keys
 6. Check log ở sheet Logs queue
+
+# Demo:
+1. Form: https://forms.gle/xcRzDPL2Ydy8PTeQ8
+2. Sheet: https://docs.google.com/spreadsheets/d/1mWhJx7oaO2BLbjnUF0Lo1cswNhm1wju4sopPhEkSOEI/edit?usp=sharing
+
