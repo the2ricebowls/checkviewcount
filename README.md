@@ -1,9 +1,16 @@
-## Mô tả:
+---
 
-Mục đích: Theo dõi số view theo ngày của từng video trên Tiktok với số lượng lớn. giúp đánh giá hiệu quả nội dung video một cách tự động.
-Đã Được đóng gói thành Apps Script, dễ dàng triển khai, dễ dàng chỉnh sửa với các AI Agents Coding. Có phiên bản N8N đi kèm để trực quan hóa và dễ dàng đem đi lắp ghép vào workflow pipeline lớn hơn.
-Repo sử dụng Scraper API để có Proxy, sử dụng sticky session gọi api của tikwm để lấy thông tin video (Demo chỉ lấy view count), KEY miễn phí với pool tự đổi key khi hết credit.
-Xử lý theo hàng chờ có retry => đáp ứng xử lý số lượng lớn, liên tục.
+### 🚀 TikTok View Tracker (Automation)
+
+**Mục đích:** Theo dõi lượt xem hàng ngày cho số lượng lớn video TikTok, giúp tự động hóa việc đánh giá hiệu quả nội dung, KOL/KOC.
+
+*   **Triển khai linh hoạt:** Đóng gói sẵn dưới dạng **Apps Script** (dễ tùy chỉnh bằng AI Agents) và phiên bản **n8n** (trực quan hóa, dễ lắp ghép vào pipeline lớn).
+*   **Hạ tầng thông minh:** 
+    *   Sử dụng **Scraper API** (Proxy) + **Sticky Session** gọi TikWM API để lấy dữ liệu chuẩn xác.
+    *   Cơ chế **Pool Key tự động**: Tự động xoay vòng key khi hết credit.
+*   **Hiệu suất cao:** Xử lý theo **Hàng chờ (Queue)** có cơ chế **Retry**, đáp ứng nhu cầu quét dữ liệu liên tục và quy mô lớn.
+
+---
 
 
 ## 📂 Các Module trong Apps Script
