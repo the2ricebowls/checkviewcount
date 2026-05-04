@@ -2,12 +2,12 @@
 
 **Mục đích:** Theo dõi lượt xem hàng ngày cho số lượng lớn video TikTok, giúp tự động hóa việc đánh giá hiệu quả nội dung, KOL/KOC.
 
-*   **Triển khai linh hoạt:** Đóng gói sẵn dưới dạng **Apps Script** (dễ tùy chỉnh bằng AI Agents) và phiên bản **n8n** (trực quan hóa, dễ lắp ghép vào pipeline lớn).
+*   **Triển khai linh hoạt:** Đóng gói sẵn dưới dạng **Apps Script** (dễ tùy chỉnh bằng AI Agents).
 *   **Hạ tầng thông minh:** 
     *   Sử dụng **Scraper API** (Proxy) + **Sticky Session** gọi TikWM API để lấy dữ liệu chuẩn xác.
     *   Cơ chế **Pool Key tự động**: Tự động xoay vòng key khi hết credit.
 *   **Hiệu suất cao:** Xử lý theo **Hàng chờ (Queue)** có cơ chế **Retry**, đáp ứng nhu cầu quét dữ liệu liên tục và quy mô lớn.
-
+*   **Mở rộng:** Tham khảo thêm workflow n8n [Xem hướng dẫn n8n Workflow tại đây](./TikTok%20Video%20Stats%20Workflow.md)
 ---
 
 
