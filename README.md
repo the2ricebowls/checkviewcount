@@ -20,3 +20,13 @@ Operational entrypoints to run manually in Apps Script:
 - `enqueueNeededRowsAndStart()` — enqueue rows missing today’s count and start the worker.
 - `startQueueWorker()` — drain queued rows now.
 - `stopAllProcessing()` / `resumeProcessing()` — pause or resume all queue processing.
+
+# Setup:
+
+1. Tạo form đổ vào sheet Data, yêu cầu lấy mail verified và link video, hỗ trợ nhập batch, mỗi link một dòng.
+sheet Data dòng 1 header có dạng:
+`Timestamp |	Email Address |	Tiktok Video Link |	Name |	Max_view |	Queue_status |	Queue_attempts |	Last_attempt_at |	Last_error |	Last_session_number |	05-05`
+3. Chạy SetupTrigger()
+4. Tạo sheet View để xem, khóa lại. dán vào A1 công thức `=FILTER({Data!B:E, Data!K:ZY}, Data!B:B <> "")`
+5. Lấy Scraper API KEY dán vào sheet ScraperAPI_Keys
+6. Check log ở sheet Logs queue
