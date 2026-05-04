@@ -1,5 +1,3 @@
----
-
 ### 🚀 TikTok View Tracker (Automation)
 
 **Mục đích:** Theo dõi lượt xem hàng ngày cho số lượng lớn video TikTok, giúp tự động hóa việc đánh giá hiệu quả nội dung, KOL/KOC.
